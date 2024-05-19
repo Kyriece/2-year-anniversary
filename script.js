@@ -54,15 +54,24 @@ function typeSentence(sentence, textSize, delay) {
 
 /// Function to type multiple sentences sequentially
 async function typeSentences(sentences, textSize, initialDelay, delayBetweenSentences) {
+  let sentence_count = 0;
   await new Promise(resolve => setTimeout(resolve, initialDelay)); // Initial delay before typing the first sentence
   for (let i = 0; i < sentences.length; i++) {
     await typeSentence(sentences[i], textSize, i === 0 ? 0 : delayBetweenSentences);
-    await new Promise(resolve => setTimeout(resolve, 4000)); // 1 second delay before starting the next sentence
+    // Check if the sentence count is greater than 4
+    if (sentence_count >= 4) {
+      await new Promise(resolve => setTimeout(resolve, 40000)); // 40 second delay after the 5th sentence
+    } else {
+      await new Promise(resolve => setTimeout(resolve, 4000)); // 4 second delay for the first 4 sentences
+    }
+    sentence_count++;
   }
 }
 
+
 // Default values for the sentences and text size
-const defaultSentences = ["Hello, World!", "Welcome to the ChatGPT Show!"];
+const defaultSentences = ["Hi my baby, <3", "To think it's already been 2 years . .", "Time sure flies when your in love", "I made this so you'll never forget the times we've had . .", "Scroll down when your ready.", "You're still here?", "I got a secret for you :)", "It's that you're boring", "I love you so much <3", "This much |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|", 
+"I hope you liked the song I sang for you", "Im sure it was a flawless performance.", "I got nothing else to say", "Forever yours, Kyriece", "Sike bitch you really thought I'd leave?", "I ain't ever leaving", "But you should really be doing something else than watching text on a screen", "Like kissing me >_<", "Ok but really tho", "Happy two year anniversary my love"];
 const defaultTextSize = 48; // in pixels
 const defaultInitialDelay = 5000; // 2 seconds initial delay
 const defaultDelayBetweenSentences = 1000; // 2 seconds delay between sentences
