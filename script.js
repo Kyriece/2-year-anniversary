@@ -78,3 +78,50 @@ const defaultDelayBetweenSentences = 1000; // 2 seconds delay between sentences
 
 // Initial typing animation with default values and delay
 typeSentences(defaultSentences, defaultTextSize, defaultInitialDelay, defaultDelayBetweenSentences);
+
+let slideIndex = 1; // Start with the second slide as central
+
+function showSlides() {
+  const slides = document.getElementsByClassName("slide");
+  const numSlides = slides.length;
+  for (let i = 0; i < numSlides; i++) {
+    slides[i].classList.remove("central"); // Remove "central" class from all slides
+  }
+  slides[slideIndex].classList.add("central"); // Add "central" class to the current slide
+}
+
+function changeSlide(n) {
+  const container = document.querySelector('.slide-container');
+  const containerWidth = container.offsetWidth;
+  const slideWidth = containerWidth / 4; // Assuming four slides are visible at a time
+
+  slideIndex += n;
+  const numSlides = document.querySelectorAll('.slide').length;
+  
+  if (slideIndex >= numSlides) {
+    slideIndex = 0;
+  } else if (slideIndex < 0) {
+    slideIndex = numSlides - 1;
+  }
+
+  const centralSlideOffset = (containerWidth - slideWidth * 2) / 2;
+  const centralOffset = -slideIndex * slideWidth + centralSlideOffset;
+
+  container.style.transform = `translateX(${centralOffset}px)`;
+  showSlides(); // Update the central slide
+}
+
+
+
+
+
+
+
+
+
+
+
+// Initial setup
+document.addEventListener("DOMContentLoaded", function() {
+  showSlides();
+});

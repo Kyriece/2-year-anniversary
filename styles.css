@@ -1,24 +1,20 @@
 /* styles.css */
 body {
   margin: 0;
-  overflow: hidden;
+  overflow-x: hidden;
   background: #333232;
   font-family: 'Montserrat', sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  position: relative; /* Ensure proper positioning of heart-container */
 }
 
 #heart-container {
-  position: absolute; /* Position the hearts relative to the body */
+  position: fixed; /* Fixed to viewport */
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh; /* Full viewport height */
   pointer-events: none;
-  z-index: 0; /* Ensure hearts appear behind text */
+  z-index: 0;
+  overflow: hidden;
 }
 
 .heart {
@@ -27,8 +23,8 @@ body {
   height: var(--heart-size);
   background-color: red;
   transform: rotate(-45deg);
-  animation: fall linear infinite, fade linear infinite;
-  z-index: -1; /* Ensure hearts appear behind text */
+  animation: fall linear 5, fade linear infinite;
+  z-index: -1;
 }
 
 .heart:before,
@@ -69,11 +65,134 @@ body {
   }
 }
 
+#text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full viewport height */
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
 #big-text {
   color: aliceblue;
   font-size: 3rem;
   font-weight: 700;
   text-align: center;
-  position: relative; /* Ensure proper positioning of text */
-  z-index: 1; /* Ensure text appears on top of hearts */
+  position: relative;
+  z-index: 1;
+}
+
+.second-screen {
+  background: #B7B5E4;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Vertical alignment */
+}
+
+.gallery {
+  display: flex;
+  align-items: center; /* Center items vertically */
+  justify-content: space-between; /* Add space between slides */
+  max-width: 80%; /* Limit gallery width */
+}
+
+
+.carousel {
+  position: relative;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.slide-container {
+  height: 70vh;
+  display: flex;
+  transition: transform 0.8s ease;
+}
+
+.slide {
+  flex: 0 0 25%; /* Each slide takes up 1/4 of the container width */
+  text-align: center;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0px 50px;
+}
+
+.slide.central {
+  flex: 0 0 50%; /* Central slide takes up half of the container width */
+}
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+  border-radius: 40px; /* Adjust the radius as needed */
+  overflow: hidden;
+  position: relative;
+}
+
+.slide img:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(255, 255, 255, 0.151), rgba(255, 255, 255, 0.065)); /* Adjust the opacity as needed */
+  border-radius: 100px; /* Match the border radius of the image */
+  z-index: -1; /* Ensure the pseudo-element is behind the image */
+}
+
+
+.slide img {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+  border-radius: 30px; /* Adjust the radius as needed */
+  overflow: hidden;
+  position: relative;
+  /* Add linear gradient for faded edges */
+  background-image: linear-gradient(rgb(255, 255, 255), rgba(128, 55, 55, 0.817)); /* Adjust the opacity as needed */
+  /* Add drop shadow */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.472); /* Adjust the shadow as needed */
+}
+
+
+.slide-text {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  display: none;
+}
+
+.slide.central .slide-text {
+  display: block; /* Show slide description for the central slide */
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
 }
