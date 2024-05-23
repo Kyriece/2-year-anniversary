@@ -71,7 +71,7 @@ async function typeSentences(sentences, textSize, initialDelay, delayBetweenSent
 
 // Default values for the sentences and text size
 const defaultSentences = ["Hi my baby, <3", "To think it's already been 2 years . .", "Time sure flies when your in love", "I made this so you'll never forget the times we've had . .", "Scroll down when your ready.", "You're still here?", "I got a secret for you :)", "It's that you're boring", "I love you so much <3", "This much |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|", 
-"I hope you liked the song I sang for you", "Im sure it was a flawless performance.", "I got nothing else to say", "Forever yours, Kyriece", "Sike bitch you really thought I'd leave?", "I ain't ever leaving", "But you should really be doing something else than watching text on a screen", "Like kissing me >_<", "Ok but really tho", "Happy two year anniversary my love"];
+"I hope you liked the song I sang for you", "Im sure it was a flawless performance.", "Did you notice the background is periwrinkle?", "I'm running out of things to say", "Forever yours, Kyriece", "Sike bitch you really thought I'd leave?", "I ain't ever leaving", "But you should really be doing something else than watching text on a screen", "Like kissing me >_<", "Ok but really tho", "Happy two year anniversary my love"];
 const defaultTextSize = 48; // in pixels
 const defaultInitialDelay = 5000; // 2 seconds initial delay
 const defaultDelayBetweenSentences = 1000; // 2 seconds delay between sentences
@@ -84,10 +84,13 @@ let slideIndex = 1; // Start with the second slide as central
 function showSlides() {
   const slides = document.getElementsByClassName("slide");
   const numSlides = slides.length;
+  const slideTexts = document.getElementsByClassName("slide-text");
   for (let i = 0; i < numSlides; i++) {
     slides[i].classList.remove("central"); // Remove "central" class from all slides
+    slideTexts[i].style.display = "none"; // Hide all slide texts
   }
   slides[slideIndex].classList.add("central"); // Add "central" class to the current slide
+  slideTexts[slideIndex].style.display = "block"; // Show the corresponding slide text
 }
 
 function changeSlide(n) {
@@ -111,17 +114,41 @@ function changeSlide(n) {
   showSlides(); // Update the central slide
 }
 
-
-
-
-
-
-
-
-
-
-
 // Initial setup
 document.addEventListener("DOMContentLoaded", function() {
   showSlides();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const videos = document.querySelectorAll('.gallery-video');
+
+  // Function to play the video
+  function playVideo(video) {
+    if (!video.paused) return; // If the video is already playing, return
+    video.play();
+  }
+
+  // Function to pause the video
+  function pauseVideo(video) {
+    if (video.paused) return; // If the video is already paused, return
+    video.pause();
+  }
+
+  // Add event listeners to play and pause videos when the central slide class is added and removed
+  const container = document.querySelector('.slide-container');
+  container.addEventListener('transitionend', () => {
+    const centralSlide = document.querySelector('.slide.central .gallery-video');
+    console.log('Transition ended');
+    console.log('Central slide:', centralSlide);
+
+    videos.forEach(video => {
+      if (video === centralSlide) {
+        console.log('Playing video:', video);
+        playVideo(video); // Play video if it's the central slide
+      } else {
+        console.log('Pausing video:', video);
+        pauseVideo(video); // Pause video if it's not the central slide
+      }
+    });
+  });
 });
