@@ -222,12 +222,16 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   playPauseButton.addEventListener("click", function() {
-      if (audioPlayer.paused) {
-          audioPlayer.play();
-      } else {
-          audioPlayer.pause();
-      }
-  });
+    if (audioPlayer.paused) {
+        audioPlayer.play().catch(function(error) {
+            console.error("Failed to start playing audio:", error);
+        });
+        playPauseButton.innerHTML = '<img src="icons/pause.svg" alt="Pause">';
+    } else {
+        audioPlayer.pause();
+        playPauseButton.innerHTML = '<img src="icons/play.svg" alt="Play">';
+    }
+});
 
   nextSongButton.addEventListener("click", nextSong);
   prevSongButton.addEventListener("click", prevSong);
