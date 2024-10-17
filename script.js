@@ -100,6 +100,8 @@ function changeSlide(n) {
 
   slideIndex += n;
   const numSlides = document.querySelectorAll('.slide').length;
+  const isMobile = window.innerWidth <= 768;
+  console.log(isMobile);
   
   if (slideIndex >= numSlides) {
     slideIndex = 0;
