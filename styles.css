@@ -294,7 +294,7 @@ body {
     right: 0;
     left: 0;
     width: 100%;
-    padding: 8px 20px;
+    padding: 8px 0; /* Changed padding */
     border-radius: 15px 15px 0 0;
     background-color: rgba(24, 24, 24, 0.95);
     display: grid;
@@ -304,16 +304,32 @@ body {
       "progress progress progress";
     gap: 5px;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box; /* Added this */
   }
 
+  /* Adjust inner padding instead */
   #now-playing {
     grid-area: title;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 10px;
+    padding: 0 20px;
     margin: 0;
     align-self: center;
+  }
+  
+  #song-title {
+    display: inline-block;
+    animation: marquee 15s linear infinite;
+    padding-right: 20px;
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
   }
 
   #controls {
@@ -323,6 +339,7 @@ body {
     gap: 30px;
     margin: 0;
     width: auto;
+    padding: 0 20px;
   }
 
   .control-button {
