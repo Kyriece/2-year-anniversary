@@ -171,14 +171,21 @@ body {
 }
 
 .slide-texts {
-  margin-top: 20px;
+  position: relative;
   text-align: center;
+  margin-top: 20px;
+  min-height: 50px;
+  max-width: 800px; /* Limit width on desktop */
+  margin-left: auto; /* Center the container */
+  margin-right: auto;
 }
 
 .slide-text {
   display: none;
   font-size: 1.2rem;
   color: #333;
+  padding: 0 20px;
+  margin: 0;
 }
 
 .slide.central + .slide-texts .slide-text:nth-child(1) {
