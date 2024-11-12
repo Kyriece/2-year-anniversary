@@ -68,7 +68,6 @@ async function typeSentences(sentences, textSize, initialDelay, delayBetweenSent
   }
 }
 
-
 // Default values for the sentences and text size
 const defaultSentences = ["Hi my baby, <3", "To think it's already been 2 years . .", "Time sure flies when your in love", "I made this so you'll never forget the times we've had . .", "Dont forget to play the music", "Scroll down when your ready.", "You're still here?", "I got a secret for you :)", "It's that you're boring", "I love you so much <3", "This much |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|", 
 "I hope you liked the song I sang for you", "Im sure it was a flawless performance.", "Did you notice the background is periwrinkle?", "I'm running out of things to say", "Forever yours, Kyriece", "Sike bitch you really thought I'd leave?", "I ain't ever leaving", "But you should really be doing something else than watching text on a screen", "Like kissing me >_<", "Ok but really tho", "Happy two year anniversary my love"];
@@ -100,8 +99,6 @@ function changeSlide(n) {
 
   slideIndex += n;
   const numSlides = document.querySelectorAll('.slide').length;
-  const isMobile = window.innerWidth <= 768;
-  console.log(isMobile);
   
   if (slideIndex >= numSlides) {
     slideIndex = 0;
@@ -155,8 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Audio
-
+// Audio Player
 document.addEventListener("DOMContentLoaded", function() {
   const audioPlayer = document.getElementById("audio-player");
   const nowPlaying = document.getElementById("song-title");
@@ -164,6 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const nextSongButton = document.getElementById("next-song");
   const playPauseButton = document.getElementById("play-pause");
   const progressBar = document.getElementById("progress-bar");
+  const progressContainer = document.getElementById("progress-container");
 
   const songs = [
       { src: "music/Evergreen.mp3", title: "Evergreen" },
@@ -204,8 +201,7 @@ document.addEventListener("DOMContentLoaded", function() {
     shuffledSongs = [randomInitialSong, ...allSongs];
 
     currentSongIndex = 0;
-}
-
+  }
 
   function loadSong(index) {
       audioPlayer.src = shuffledSongs[index].src;
@@ -233,23 +229,32 @@ document.addEventListener("DOMContentLoaded", function() {
         audioPlayer.pause();
         playPauseButton.innerHTML = '<img src="icons/play.svg" alt="Play">';
     }
-});
+  });
 
   nextSongButton.addEventListener("click", nextSong);
   prevSongButton.addEventListener("click", prevSong);
 
+  // Progress bar functionality
   audioPlayer.addEventListener("timeupdate", function() {
-      progressBar.value = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = percent + '%';
+});
+
+  progressContainer.addEventListener("click", function(e) {
+    const rect = progressContainer.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / rect.width;
+    audioPlayer.currentTime = pos * audioPlayer.duration;
+  });
+
+  progressContainer.addEventListener("touchstart", function(e) {
+    e.preventDefault();
+    const rect = progressContainer.getBoundingClientRect();
+    const pos = (e.touches[0].clientX - rect.left) / rect.width;
+    audioPlayer.currentTime = pos * audioPlayer.duration;
   });
 
   audioPlayer.addEventListener("ended", nextSong);
 
-  progressBar.addEventListener("input", function() {
-      audioPlayer.currentTime = (progressBar.value / 100) * audioPlayer.duration;
-  });
-
   initializePlaylist();
   loadSong(currentSongIndex);
 });
-
-
